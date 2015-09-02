@@ -21,9 +21,9 @@
                     <div class="summarybox">
                         <div class="summarybody">
                             <div>Originated</div>
-                            <span data-bind="text: OriginatedCount"></span>
+                            <span data-bind="text: pipeData.data()[0].OriginatedCount"></span>
                             for
-                            $<span data-bind="text: OriginatedAmount"></span>
+                            $<span data-bind="text: pipeData.data()[0].OriginatedAmount"></span>
                         </div>
                     </div>
                 </div>
@@ -31,9 +31,9 @@
                     <div class="summarybox">
                         <div class="summarybody">
                             <div>Submitted</div>
-                            <span data-bind="text: SubmittedCount"></span>
+                            <span data-bind="text: pipeData.data()[0].SubmittedCount"></span>
                             for
-                            $<span data-bind="text: SubmittedAmount"></span>
+                            $<span data-bind="text: pipeData.data()[0].SubmittedAmount"></span>
                         </div>
                     </div>
                 </div>
@@ -41,9 +41,9 @@
                     <div class="summarybox">
                         <div class="summarybody">
                             <div>Funded</div>
-                            <span data-bind="text: FundedCount"></span>
+                            <span data-bind="text: pipeData.data()[0].FundedCount"></span>
                             for
-                            $<span data-bind="text: FundedAmount"></span>
+                            $<span data-bind="text: pipeData.data()[0].FundedAmount"></span>
                         </div>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                     <div class="summarybox">
                         <div class="summarybody">
                             <div>Purchase</div>
-                            <span data-bind="text: PurchasePct"></span>%
+                            <span data-bind="text: pipeData.data()[0].PurchasePct"></span>%
                         </div>
                     </div>
                 </div>

@@ -8,43 +8,53 @@
     }
 });
 
+var pipelineData = new kendo.data.DataSource({
+    transport: {
+        read: {
+            url: function () { return "/ajax/pipeline/" + _current },
+            type: "get",
+            dataType: "json"
+        }
+    },
+    schema: {
+        data: function (r) { return r; },
+        total: function (r) { return r.length; }
+    }
+
+});
+
 var pipelineSummary = kendo.observable({
     loaded: false,
     notloaded: true,
-    OriginatedCount: 0,
-    OriginatedAmount: 0,
-    SubmittedCount: 0,
-    SubmittedAmount: 0,
-    FundedCount: 0,
-    FundedAmount: 0,
-    PurchasePct: 0
+    pipeData: new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: function () { return "/ajax/totals/" + _current },
+                type: "get",
+                dataType: "json"
+            }
+        }
+    })
 });
 kendo.bind($("#rightpane"), pipelineSummary);
 
-var pipelineData = new kendo.data.DataSource({
-    data: []
-});
-
+var _current = null;
 function Load(id) {
-    $.getJSON("/ajax/pipeline/" + id, function (result) {
-        pipelineSummary.set("OriginatedCount", result.Summary.OriginatedCount);
-        pipelineSummary.set("OriginatedAmount", result.Summary.OriginatedAmount);
-        pipelineSummary.set("SubmittedCount", result.Summary.SubmittedCount);
-        pipelineSummary.set("SubmittedAmount", result.Summary.SubmittedAmount);
-        pipelineSummary.set("FundedCount", result.Summary.FundedCount);
-        pipelineSummary.set("FundedAmount", result.Summary.FundedAmount);
-        pipelineSummary.set("PurchasePct", result.Summary.PurchasePct);
+    var addgrid = false;
+    if (_current == null) {
         pipelineSummary.set("loaded", true);
         pipelineSummary.set("notloaded", false);
-        pipelineData.data(result.Pipeline);
-    });
+        addgrid = true;
+        _current = id;
+    } else {
+        _current = id;
+        pipelineData.read();
+    }
+    pipelineSummary.pipeData.read();
+    if (addgrid) addGrid();
 }
 
-$(document).ready(function () {
-    $("#officerList").kendoListView({
-        template: officerTemplate,
-        dataSource: officerData
-    });
+function addGrid() {
     $("#grid").kendoGrid({
         sortable: true,
         pageable: {
@@ -76,4 +86,12 @@ $(document).ready(function () {
         ],
         dataSource: pipelineData
     });
+}
+
+$(document).ready(function () {
+    $("#officerList").kendoListView({
+        template: officerTemplate,
+        dataSource: officerData
+    });
+
 });
