@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div class="row">
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Officer List
+            </div>
+            <div id="officerList"></div>
+        </div>
+    </div>
+    <div class="col-sm-8" id="rightpane">
+        <div data-bind="visible: notloaded">
+            <h2>Select a loan officer to see their stats.</h2>
+        </div>
+        <div data-bind="visible: loaded">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="summarybox">
+                        <div class="summarybody">
+                            <div>Originated</div>
+                            <span data-bind="text: OriginatedCount"></span>
+                            for
+                            $<span data-bind="text: OriginatedAmount"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="summarybox">
+                        <div class="summarybody">
+                            <div>Submitted</div>
+                            <span data-bind="text: SubmittedCount"></span>
+                            for
+                            $<span data-bind="text: SubmittedAmount"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="summarybox">
+                        <div class="summarybody">
+                            <div>Funded</div>
+                            <span data-bind="text: FundedCount"></span>
+                            for
+                            $<span data-bind="text: FundedAmount"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="summarybox">
+                        <div class="summarybody">
+                            <div>Purchase</div>
+                            <span data-bind="text: PurchasePct"></span>%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="grid">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+    <script id="officerTemplate" type="text/x-kendo-template">
+        <div class="ocard" onclick="Load('#: Key #')">
+            @*TODO: Replace shutterstock image with final copy*@
+            <img class="officerimg" src="http://bayeq.com/developer-test/photos/#= Key #.jpg"
+                 onerror="this.src = 'http://image.shutterstock.com/display_pic_with_logo/1142849/154258055/stock-vector-businessman-icon-with-question-mark-on-his-head-154258055.jpg';" />
+            <div class="cardtext">
+                <div class="officername">${FirstName} ${LastName}</div>
+                <div class="officeremail">
+                    <a href="mailto: #: Email #">${Email}</a>
+                </div>
+                <div class="officertitle">${Title}</div>
+                <div class="officerlocation">${City}, ${State}</div>
+            </div>
+
+        </div>
+    </script>
+
+    <script>
+        @*TODO: Find out why moving this to site.js causes an error in Kendo*@
+        var officerTemplate = kendo.template($("#officerTemplate").html());
+    </script>
+}
