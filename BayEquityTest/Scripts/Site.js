@@ -57,11 +57,6 @@ function Load(id) {
 function addGrid() {
     $("#grid").kendoGrid({
         sortable: true,
-        pageable: {
-            refresh: true,
-            pageSizes: true,
-            buttonCount: 5
-        },
         columns: [
             {
                 field: "LoanNumber",
@@ -93,5 +88,4 @@ $(document).ready(function () {
         template: officerTemplate,
         dataSource: officerData
     });
-
 });
